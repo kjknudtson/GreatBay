@@ -30,8 +30,25 @@ function start() {
 ​
 // function to handle posting new items up for auction
 function postAuction() {
-  // prompt for info about the item being put up for auction
-​
+  inquirer
+  .prompt([
+      {name:"item",type:"input",message:"what item do you want to auction off?"},
+      {name:"category", type:"input",message:"what type of item is it?"},
+      {name:"startingbid",type:"input",message:"what would you like your starting bid to be?"}
+    ])
+​.then(function(answer){
+    connection.query(
+        "INSERT INTO auctions SET ?",
+        {
+            item_name: answer.item, category: answer.category, starting_bid: answer.startingbid 
+        },
+        function(err){
+            if(err)throw err;
+            start();
+        }
+
+    )
+})
 }
 ​
 function bidAuction() {
